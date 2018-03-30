@@ -17,7 +17,7 @@ var data = {
     waitlist: [],
 };
 var visitorCount = 0;
-
+var newreservations = []
 // these are for the html pages
 
 //homepage
@@ -45,31 +45,23 @@ app.get("/api/waitlist", function(req, res) {
 
 app.get("/api/table", function(req, res) {
     var tablesTaken = req.params.table;
-  //chosen is tablesTaken
-  // characters is table
-    if (tablesTaken) {
-      console.log(tablesTaken);
+    console.log("--------------" + newreservations)
   
-      for (var i = 0; i < table.length; i++) {
-        if (chosen === table[i].routeName) {
-          return res.json(table[i]);
-        }
-      }
-      return res.json(false);
-    }
-    return res.json(table);
+    res.json(newreservations);
+
   });
 
   // create new reservations
 app.post("/api/reserve", function(req, res) {
     var newreservation = req.body;
-    newreservation.routeName = newreservation.name.replace(/\s+/g, "").toLowerCase();
+    console.log(newreservation)
+    newreservation.routeName = newreservation.customerName.replace(/\s+/g, "").toLowerCase();
 
     console.log(newreservation);
 
-    reservations.push(newreservation);
+    newreservations.push(newreservation);
 
-    res.json(newreservation);
+    console.log("this is in our api/reserve route" + newreservations)
 });
 
 //server listening
