@@ -12,18 +12,14 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 //empty variables
 // endless reservations can be made
-var data = {
-    res: [],
-    waitlist: [],
-};
-var visitorCount = 0;
+
 var newreservations = []
+var waitlist = []
 // these are for the html pages
 
 //homepage
 app.get("/", function(req, res) {
     res.sendFile(path.join(__dirname, "home.html"));
-    visitorCount++;
 });
 // tables html page
 app.get("/tables", function(req, res) {
@@ -36,11 +32,11 @@ app.get("/reserve", function(req, res) {
 
 //api links
 app.get("/api/res", function(req, res) {
-    res.json(data.res);
+    res.json(newreservations);
 });
   
 app.get("/api/waitlist", function(req, res) {
-    res.json(data.waitlist);
+    res.json(waitlist);
 });
 
 app.get("/api/table", function(req, res) {
@@ -59,9 +55,16 @@ app.post("/api/reserve", function(req, res) {
 
     console.log(newreservation);
 
-    newreservations.push(newreservation);
+    // newreservations.push(newreservation);
 
     console.log("this is in our api/reserve route" + newreservations)
+
+    
+    if (newreservations.length < 5){
+        newreservations.push(newreservation)
+     } else {(waitlist.push(newreservation));
+        
+    }
 });
 
 //server listening
